@@ -2,7 +2,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useContext, useEffect, useState } from "react";
 import { PostContext } from "../context/PostContext.js";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 function PostForm() {
@@ -12,7 +12,6 @@ function PostForm() {
         image: null,
     });
     const { createPost, getPost, updatePost } = useContext(PostContext);
-    const navigate = useNavigate();
     const params = useParams();
 
     useEffect(() => {
@@ -48,7 +47,7 @@ function PostForm() {
                         }
 
                         actions.setSubmitting(false);
-                        navigate("/");
+                        window.location.href = "/";
                     }}
                     validationSchema={Yup.object({
                         title: Yup.string().required("Title is required"),

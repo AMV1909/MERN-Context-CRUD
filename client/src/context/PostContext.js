@@ -47,7 +47,11 @@ const PostContextProvider = ({ children }) => {
     const updatePost = async (id, post) => {
         return await updatePostRequest(id, post)
             .then((response) => {
-                setPosts(posts.map((post) => post._id === id ? response.data : post));
+                setPosts(
+                    posts.map((post) =>
+                        post._id === id ? response.data : post
+                    )
+                );
             })
             .catch((error) => {
                 console.log(error);
