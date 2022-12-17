@@ -13,13 +13,15 @@ const PostContextProvider = ({ children }) => {
     const [posts, setPosts] = useState([]);
 
     useEffect(() => {
-        getPostsRequest()
-            .then((response) => {
-                setPosts(response.data);
-            })
-            .catch((error) => {
-                console.log(error);
-            });
+        (async () => {
+            await getPostsRequest()
+                .then((response) => {
+                    setPosts(response.data);
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        })();
     }, []);
 
     const createPost = async (post) => {
@@ -45,8 +47,7 @@ const PostContextProvider = ({ children }) => {
     const updatePost = async (id, post) => {
         return await updatePostRequest(id, post)
             .then((response) => {
-                setPosts(posts.map((post) => post.id === id ? response.data : post));
-                console.log(response.data);
+                setPosts(posts.map((post) => post._id === id ? response.data : post));
             })
             .catch((error) => {
                 console.log(error);

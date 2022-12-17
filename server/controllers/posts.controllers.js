@@ -39,9 +39,9 @@ const createPost = async (req, res) => {
     newPost
         .save()
         .then((data) => res.json(data))
-        .catch((err) => {
+        .catch(async (err) => {
             if (image) {
-                deleteImage(image.public_id);
+                await deleteImage(image.public_id);
             }
 
             res.status(400).json("Error: " + err);
@@ -64,29 +64,28 @@ const updatePost = async (req, res) => {
 
     await postSchema
         .findByIdAndUpdate(req.params.id, { title, description, image })
-        .then((data) => {
+        .then(async (data) => {
             if (image) {
-                deleteImage(data.image.public_id);
+                await deleteImage(data.image.public_id);
             }
 
             res.json(data);
         })
-        .catch((err) => {
+        .catch(async (err) => {
             if (image) {
-                deleteImage(image.public_id);
+                await deleteImage(image.public_id);
             }
 
             res.status(400).json("Error: " + err);
         });
-
 };
 
 const deletePost = (req, res) => {
     postSchema
         .findByIdAndDelete(req.params.id)
-        .then((data) => {
+        .then(async (data) => {
             if (data.image.public_id) {
-                deleteImage(data.image.public_id);
+                await deleteImage(data.image.public_id);
             }
 
             res.send("Post deleted");
